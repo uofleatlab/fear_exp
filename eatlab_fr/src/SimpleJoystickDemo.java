@@ -7,11 +7,13 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.Stroke;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 public class SimpleJoystickDemo extends JFrame {
 
@@ -51,14 +53,21 @@ public class SimpleJoystickDemo extends JFrame {
             this.position = position;
         }
 
-        @Override
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            Graphics2D g2 = (Graphics2D) g;
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                    RenderingHints.VALUE_ANTIALIAS_ON);
-            g2.setColor(Color.RED);
-            g2.fillOval(160 + position.x, 160 - position.y, 15, 15);
+        private BufferedImage fearimage;
+
+        public class PullImage {
+
+            public PullImage() {
+                try {
+                    fearimage = ImageIO.read(new File("spider.png"));
+                } catch (IOException ex) {
+
+                }
+            }
+        }
+
+        public void paint(Graphics g) {
+            g.drawImage(fearimage,160 + position.x, 160 - position.y,this);
         }
     }
 }
